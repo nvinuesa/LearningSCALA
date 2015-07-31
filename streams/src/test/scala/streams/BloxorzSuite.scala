@@ -37,6 +37,7 @@ class BloxorzSuite extends FunSuite {
       |-----ooToo
       |------ooo-""".stripMargin
 
+
     val optsolution = List(Right, Right, Down, Right, Right, Right, Down)
   }
 
@@ -64,4 +65,41 @@ class BloxorzSuite extends FunSuite {
       assert(solution.length == optsolution.length)
     }
   }
+  
+  test("isLegal level 1") {
+    new Level1 {
+      assert(!Block(Pos(-1,1),Pos(0,1)).isLegal)
+    }
+  }
+  
+  test("Checking neighborsWithHistory...") {
+	  new Level1 {
+		  assert(neighborsWithHistory(Block(Pos(1,1),Pos(1,1)), List(Left,Up)).toSet == Set(
+				  (Block(Pos(1,2),Pos(1,3)), List(Right,Left,Up)),
+				  (Block(Pos(2,1),Pos(3,1)), List(Down,Left,Up))
+				  ))
+      assert(neighborsWithHistory(Block(Pos(2,5),Pos(3,5)), List(Left,Up)).toSet == Set(          
+          (Block(Pos(2,4),Pos(3,4)), List(Left,Left,Up)),
+          (Block(Pos(2,6),Pos(3,6)), List(Right,Left,Up)),
+          (Block(Pos(1,5),Pos(1,5)), List(Up,Left,Up)),
+          (Block(Pos(4,5),Pos(4,5)), List(Down,Left,Up))
+          ))    
+	  }
+  }
+  
+  test("Checking newNeighborsOnly...") {
+    new Level1 {
+    	assert(newNeighborsOnly(
+    			Set(
+    					(Block(Pos(1,2),Pos(1,3)), List(Right,Left,Up)),
+    					(Block(Pos(2,1),Pos(3,1)), List(Down,Left,Up))
+    					).toStream,
+
+    					Set(Block(Pos(1,2),Pos(1,3)), Block(Pos(1,1),Pos(1,1)))
+    			) == Set(
+    					(Block(Pos(2,1),Pos(3,1)), List(Down,Left,Up))
+    					).toStream)
+    }
+  }
+  
 }
